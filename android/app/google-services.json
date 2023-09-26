@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "769429726053",
+    "project_id": "flutter-demo-37hr-course-myno",
+    "storage_bucket": "flutter-demo-37hr-course-myno.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769429726053:android:9aca5ad8eff9339995378c",
+        "android_client_info": {
+          "package_name": "com.example.learnflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4jovlaRUcCDsHTXDYT2r9Z67CPs7CzZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
