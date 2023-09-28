@@ -1,6 +1,9 @@
 // LoginView
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -60,27 +63,34 @@ class _LoginViewState extends State<LoginView> {
               // await Firebase.initializeApp(
               //   options: DefaultFirebaseOptions.currentPlatform,
               // );
-    
+
               final email = _email.text;
               final password = _password.text;
-    
+
               try {
-                final userCredential =
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                // final userCredential =
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                print("UserCredentials: $userCredential");
+                // devtools.log(userCredential.toString());
+                // userCredential is object and can't be
+                //logged without .toString()
+                // devtools.log("UserCredentials: $userCredential");
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes/',
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
-                print("Specified Exception: ");
-    
+                devtools.log("Specified Exception: ");
+
                 if (e.code == 'user-not-found') {
-                  print("User not found");
+                  devtools.log("User not found");
                 } else if (e.code == 'wrong-password') {
-                  print("Wrong Password");
-                  print(e.code);
+                  devtools.log("Wrong Password");
+                  devtools.log(e.code);
                 } else {
-                  print(e.code);
+                  devtools.log(e.code);
                 }
               }
             },
@@ -91,6 +101,7 @@ class _LoginViewState extends State<LoginView> {
               Navigator.of(context).pushNamedAndRemoveUntil(
                 '/register/',
                 (route) => false,
+                // false means remove every other screen behind.
               );
             },
             child: const Text('Not registered yet? Register here!'),
