@@ -3,9 +3,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 import 'package:learnflutter/constants/routes.dart';
+import 'package:learnflutter/utilites/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -36,7 +36,9 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(
+        title: const Text("Login"),
+      ),
       body: Column(
         children: [
           TextField(
@@ -65,7 +67,6 @@ class _LoginViewState extends State<LoginView> {
               // await Firebase.initializeApp(
               //   options: DefaultFirebaseOptions.currentPlatform,
               // );
-
               final email = _email.text;
               final password = _password.text;
 
@@ -84,16 +85,28 @@ class _LoginViewState extends State<LoginView> {
                   (route) => false,
                 );
               } on FirebaseAuthException catch (e) {
-                devtools.log("Specified Exception: ");
+                // devtools.log("Specified Exception: ");
 
-                if (e.code == 'user-not-found') {
-                  devtools.log("User not found");
-                } else if (e.code == 'wrong-password') {
-                  devtools.log("Wrong Password");
-                  devtools.log(e.code);
+                if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+                  await showErrorDialog(
+                    context,
+                    "Wrong user credentials",
+                  );
+                  // devtools.log(
+                  //   "User not found/Wrong Password/ Invalid login credentials",
+                  // );
                 } else {
-                  devtools.log(e.code);
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
+                  // devtools.log(e.code);
                 }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  'Error: $e',
+                );
               }
             },
             child: const Text('Login'),
@@ -113,3 +126,5 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
+
+
