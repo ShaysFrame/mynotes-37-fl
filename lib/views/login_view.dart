@@ -105,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
               } catch (e) {
                 await showErrorDialog(
                   context,
-                  'Error: $e',
+                  'Error (0x00l0): $e',
                 );
               }
             },
@@ -126,5 +126,3 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
-
-

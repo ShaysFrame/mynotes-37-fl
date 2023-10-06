@@ -12,7 +12,9 @@ import 'dart:developer' as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 void test() {
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     );
   }
