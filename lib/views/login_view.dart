@@ -1,10 +1,11 @@
 // LoginView
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:learnflutter/constants/routes.dart';
+import 'package:learnflutter/services/auth/auth_exceptions.dart';
+import 'package:learnflutter/services/auth/auth_service.dart';
 import 'package:learnflutter/utilites/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -72,13 +73,13 @@ class _LoginViewState extends State<LoginView> {
 
               try {
                 // final userCredential =
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
                 // Check whether the user is verified or not
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
+                final user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false) {
                   // user's email is verified
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     notesRoute,
@@ -95,28 +96,15 @@ class _LoginViewState extends State<LoginView> {
                 // userCredential is object and can't be
                 //logged without .toString()
                 // devtools.log("UserCredentials: $userCredential");
-              } on FirebaseAuthException catch (e) {
-                // devtools.log("Specified Exception: ");
-
-                if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
-                  await showErrorDialog(
-                    context,
-                    "Wrong user credentials",
-                  );
-                  // devtools.log(
-                  //   "User not found/Wrong Password/ Invalid login credentials",
-                  // );
-                } else {
-                  await showErrorDialog(
-                    context,
-                    'Error: ${e.code}',
-                  );
-                  // devtools.log(e.code);
-                }
-              } catch (e) {
+              } on WrongCredentialAuthException {
                 await showErrorDialog(
                   context,
-                  'Error (0x00l0): $e',
+                  "Wrong credentials",
+                );
+              } on GenericAuthException {
+                await showErrorDialog(
+                  context,
+                  'Authentication Error (0x00l0).',
                 );
               }
             },
