@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:learnflutter/firebase_options.dart';
-import 'package:learnflutter/services/auth/auth_user.dart';
-import 'package:learnflutter/services/auth/auth_provider.dart';
-import 'package:learnflutter/services/auth/auth_exceptions.dart';
-
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
+
+import 'package:learnflutter/services/auth/auth_user.dart';
+import 'package:learnflutter/services/auth/auth_provider.dart';
+
+import 'package:learnflutter/services/auth/auth_exceptions.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
